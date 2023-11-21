@@ -22,7 +22,6 @@
 
 #include <TensorFlowLite.h>
 #include <tensorflow/lite/micro/all_ops_resolver.h>
-#include <tensorflow/lite/micro/micro_error_reporter.h>
 #include <tensorflow/lite/micro/micro_interpreter.h>
 #include <tensorflow/lite/schema/schema_generated.h>
 
@@ -32,9 +31,6 @@ const float accelerationThreshold = 2.5; // threshold of significant in G's
 const int numSamples = 119;
 
 int samplesRead = numSamples;
-
-// global variables used for TensorFlow Lite (Micro)
-tflite::MicroErrorReporter tflErrorReporter;
 
 // pull in all the TFLM ops, you can remove this line and
 // only pull in the TFLM ops you need, if would like to reduce
@@ -87,7 +83,7 @@ void setup() {
   }
 
   // Create an interpreter to run the model
-  tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize, &tflErrorReporter);
+  tflInterpreter = new tflite::MicroInterpreter(tflModel, tflOpsResolver, tensorArena, tensorArenaSize);
 
   // Allocate memory for the model's input and output tensors
   tflInterpreter->AllocateTensors();
